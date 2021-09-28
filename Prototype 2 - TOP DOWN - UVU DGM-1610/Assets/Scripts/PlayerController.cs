@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 10;
+    public float speed = 5;
+    public float turnSpeed = 100;
     
     private float hInput;
     private float vInput;
     private float xRange = 8.4f;
     private float yRange = 4.5f;
 
+    public GameObject projectile;
+    public Transform launcher;
     //public float health;
 
     // Start is called before the first frame update
@@ -26,7 +29,7 @@ public class PlayerController : MonoBehaviour
         hInput = Input.GetAxis("Horizontal");
         vInput = Input.GetAxis("Vertical");
 
-        transform.Translate(Vector3.right * speed * hInput * Time.deltaTime);
+        transform.Rotate(Vector3.back * turnSpeed * hInput * Time.deltaTime); 
         transform.Translate(Vector3.up * speed * vInput * Time.deltaTime);
 
         //locking gameplay area with invisible walls
@@ -45,6 +48,12 @@ public class PlayerController : MonoBehaviour
         if (transform.position.y > yRange)
         {
             transform.position = new Vector3(transform.position.x, yRange, transform.position.z);
+        }
+
+        //Fires projectile
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Instantiate(projectile, launcher.transform.position, launcher.transform.rotation);
         }
     }
 }
