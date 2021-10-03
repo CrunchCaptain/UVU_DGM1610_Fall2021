@@ -4,16 +4,19 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 5;
-    public float turnSpeed = 100;
+    public float speed = 3.5f;
+    public float turnSpeed = 175f;
     
     private float hInput;
     private float vInput;
     private float xRange = 8.4f;
     private float yRange = 4.5f;
 
+    public int playerHealth = 3;
+
     public GameObject projectile;
     public Transform launcher;
+
     //public float health;
 
     // Start is called before the first frame update
@@ -54,6 +57,15 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Instantiate(projectile, launcher.transform.position, launcher.transform.rotation);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy Projectile"))
+        {
+            playerHealth--;
+            Destroy(collision.gameObject);
         }
     }
 }

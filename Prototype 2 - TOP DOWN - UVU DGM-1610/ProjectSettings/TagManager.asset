@@ -5,6 +5,14 @@ TagManager:
   serializedVersion: 2
   tags:
   - Projectile
+  - Wall
+  - Enemy
+  - Enemy Launcher
+  - Enemy Projectile
+  - 1
+  - 2
+  - 3
+  - 4
   layers:
   - Default
   - TransparentFX

@@ -12,11 +12,11 @@ GameObject:
   - component: {fileID: 2320717943918524757}
   - component: {fileID: 6720982988315202922}
   - component: {fileID: 2418389574119257140}
-  - component: {fileID: 6162195330888894494}
   - component: {fileID: 3001075531901472810}
+  - component: {fileID: -3033679698233640593}
   m_Layer: 0
-  m_Name: Projectile
-  m_TagString: Projectile
+  m_Name: Enemy Projectile
+  m_TagString: Enemy Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
-  m_Color: {r: 0.13725488, g: 0.21221481, b: 0.8862745, a: 1}
+  m_Color: {r: 1, g: 0.0141509175, b: 0.023158772, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -123,18 +123,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &6162195330888894494
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2433869707267775986}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c8bcae3c6fd2844a852993032d0e736, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3001075531901472810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,5 +133,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eac736dc8f76694478db7349868c6001, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-3033679698233640593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2433869707267775986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb6ff9b1f20c3a844a7ece1e6b957730, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
