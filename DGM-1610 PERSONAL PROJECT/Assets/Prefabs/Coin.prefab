@@ -94,7 +94,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.75
+  m_Radius: 1
   m_Height: 7.26
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -113,6 +113,7 @@ MonoBehaviour:
   yRotationSpeed: 30
   xRotationSpeed: 20
   scoreValue: 5
+  explosionPart: {fileID: 1549161735988842982, guid: 1a1093d47b0e5a94eb35770e3f2b0cee, type: 3}
 --- !u!1001 &275753562666256958
 PrefabInstance:
   m_ObjectHideFlags: 0

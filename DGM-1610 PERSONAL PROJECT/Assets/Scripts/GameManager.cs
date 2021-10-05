@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,65 +15,105 @@ public class GameManager : MonoBehaviour
     public int coinCount;
 
     public bool gameOver = false;
+    public bool gameActive = false;
+
+    public GameObject mainMenu;
+    public Button startButton;
 
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI roundText;
     public TextMeshProUGUI livesText;
     public TextMeshProUGUI coinsText;
+    public GameObject hud;
 
-    private GameObject player;
-    private GameObject enemy;
+    public TextMeshProUGUI gameOverText;
+    public TextMeshProUGUI finalScoreText;
+    public Button restartButton;
+
+    public GameObject player;
+    public GameObject enemy;
     private GameObject coins;
     private PickUpSpawner pickUpSpawn;
     private EnemySpawner enemySpawn;
+    public EnemyAI enemyAI;
+    public ParticleSystem deathPart;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindWithTag("Player");
-        enemy = GameObject.FindWithTag("Enemy");
         pickUpSpawn = GameObject.FindWithTag("Pick Up Spawner").GetComponent<PickUpSpawner>();
         enemySpawn = GameObject.FindWithTag("Enemy Spawner").GetComponent<EnemySpawner>();
         coins = GameObject.FindWithTag("Coin");
-
-        ScoreUpdater(0);
-        LivesUpdater(0);
     }
 
     // Update is called once per frame
     void Update()
     {
+        StartGame();
+
         coinCount = FindObjectsOfType<CoinPickUps>().Length;
         
-        if (coinCount == 0)
-        {
-            RoundUpdater(1);
-
-            pickUpSpawn.SpawnPickUps(round);
-            enemySpawn.SpawnEnemyWave(round);
-        }
+        
         coinUpdater(coinCount);
         //ends game if player runs out of lives
         if (lives < 1)
         {
-            gameOver = true;
+            gameActive = false;
+            enemyAI.speed = 5;
+            Destroy(player.gameObject);
+            Instantiate(deathPart, player.transform.position, deathPart.transform.rotation);
+            GameOverDisplay();
+           
         }
-        GameOver();
     }
 
-    void GameOver()
+    public void StartButton()
     {
-        if (gameOver == true)
+        startButton.onClick.AddListener(StartGame);
+        gameActive = true;
+    }
+
+    public void StartGame()
+    {
+        if (gameActive == true)
         {
-            Destroy(player.gameObject);
-            Destroy(enemy.gameObject);
+            mainMenu.SetActive(false);
+            hud.SetActive(true);
+            player.GetComponent<Rigidbody>().useGravity = true;
+
+            ScoreUpdater(0);
+            LivesUpdater(0);
+            if (coinCount == 0)
+            {
+                RoundUpdater(1);
+
+
+                pickUpSpawn.SpawnPickUps(round);
+                enemySpawn.SpawnEnemyWave(round);
+
+            }
         }
+
+        
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void GameOverDisplay()
+    {
+        gameOverText.gameObject.SetActive(true);
+        hud.gameObject.SetActive(false);
     }
 
     public void ScoreUpdater(int scoreToAdd)
     {
         score += scoreToAdd;
         scoreText.text = "SCORE: " + score;
+        finalScoreText.text = "SCORE - " + score;
     }
 
     public void LivesUpdater(int livesLeft)

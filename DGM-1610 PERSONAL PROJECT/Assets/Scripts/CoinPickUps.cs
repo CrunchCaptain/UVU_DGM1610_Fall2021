@@ -10,6 +10,7 @@ public class CoinPickUps : MonoBehaviour
     public int scoreValue = 5;
 
     private GameManager gameManager;
+    public ParticleSystem explosionPart;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +30,7 @@ public class CoinPickUps : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             Destroy(gameObject);
+            Instantiate(explosionPart, transform.position, explosionPart.transform.rotation);
             gameManager.ScoreUpdater(scoreValue);
         }
     }

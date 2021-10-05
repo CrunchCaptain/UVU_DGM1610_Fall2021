@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-    public float speed;
+    public float speed = 5;
+    public float scoreValue = 5f;
     private int damage = -1;
 
     private Rigidbody enemyRb;
@@ -35,6 +36,11 @@ public class EnemyAI : MonoBehaviour
     }
 
     private void FixedUpdate()
+    {
+        Move();
+    }
+
+    void Move()
     {
         Vector3 followPlayer = (playerLocation.transform.position - transform.position).normalized;
 

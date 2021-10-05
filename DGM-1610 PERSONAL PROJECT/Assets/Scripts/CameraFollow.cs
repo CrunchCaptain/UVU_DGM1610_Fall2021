@@ -4,14 +4,23 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    public float rotationSpeed = 100f;
+    private float rotationSpeed = 100f;
+    private float menuSpeed = 25f;
+    public GameManager gameManager;
 
     // Update is called once per frame
     void Update()
     {
-        float hInput = Input.GetAxis("Horizontal");
-        transform.Rotate(Vector3.up, hInput * rotationSpeed * Time.deltaTime);
+        if (gameManager.gameActive == true)
+        {
+            float hInput = Input.GetAxis("Horizontal");
+            transform.Rotate(Vector3.up, hInput * rotationSpeed * Time.deltaTime);
 
-        transform.position = GameObject.Find("Player").transform.position;
+            transform.position = GameObject.Find("Player").transform.position;
+        } 
+        else
+        {
+            transform.Rotate(Vector3.up * menuSpeed * Time.deltaTime);
+        }
     }
 }

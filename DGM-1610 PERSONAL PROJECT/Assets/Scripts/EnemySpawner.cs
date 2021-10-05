@@ -8,6 +8,7 @@ public class EnemySpawner : MonoBehaviour
     private float xRange;
 
     public GameObject enemyPrefab;
+    private EnemyAI enemyAI;
 
     // Start is called before the first frame update
     void Start()
@@ -15,7 +16,7 @@ public class EnemySpawner : MonoBehaviour
         zRange = Random.Range(12, 29);
         xRange = Random.Range(12, 29);
 
-        
+        enemyAI = enemyPrefab.GetComponent<EnemyAI>();
     }
 
     // Update is called once per frame
@@ -37,6 +38,7 @@ public class EnemySpawner : MonoBehaviour
         for (int i = 0; i < enemiesToSpawn; i++)
         {
             Instantiate(enemyPrefab, SpawnPosition(), enemyPrefab.transform.rotation);
+            enemyAI.speed += .25f;
         }
     }
 }

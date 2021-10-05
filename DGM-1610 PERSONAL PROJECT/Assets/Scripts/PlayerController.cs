@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 5f;
 
     private Rigidbody playerRb;
+    public GameManager gameManager;
     private GameObject focalPoint;
     
 
@@ -27,12 +28,13 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     { 
+        if (gameManager.gameActive == true)
         Movement();
     }
 
-    void Movement()
+    public void Movement()
     {
-        float vInput = Input.GetAxis("Vertical");
-        playerRb.AddForce(focalPoint.transform.forward * speed * vInput);
+        float vInput = Input.GetAxis("Vertical") * speed;
+        playerRb.AddForce(focalPoint.transform.forward * vInput);
     }
 }
