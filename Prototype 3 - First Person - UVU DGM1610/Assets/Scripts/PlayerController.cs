@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
     private Camera playerCamera;
     private Rigidbody playerRb;
 
+    private Bullet bulletScrpt;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +38,16 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         Move();
+        CamLook();
+        Aim();
+    }
+
+    private void FixedUpdate()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+            Jump();
+        if (Input.GetMouseButtonDown(0))
+            bulletScrpt.Fire();
     }
 
     void Move()
@@ -43,12 +55,43 @@ public class PlayerController : MonoBehaviour
         float x = Input.GetAxis("Horizontal") * movementSpeed;
         float z = Input.GetAxis("Vertical") * movementSpeed;
 
-        playerRb.velocity = new Vector3(x, playerRb.velocity.y, z);
+        //playerRb.velocity = new Vector3(x, playerRb.velocity.y, z);
+        Vector3 dir = transform.right * x + transform.forward * z;
+        playerRb.velocity = dir;
+    }
+
+    void Jump()
+    {
+        Ray ray = new Ray(transform.position, Vector3.down);
+
+        if (Physics.Raycast(ray, 1.1f))
+            playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+    }
+
+    void Aim()
+    {
+        if(Input.GetMouseButtonDown(1))
+        {
+            GameObject.Find("Gun").transform.localPosition = new Vector3(0, -0.2f, 0.66f);
+        }
+        if (Input.GetMouseButtonUp(1))
+        {
+            GameObject.Find("Gun").transform.localPosition = new Vector3(0.17f, -0.26704f, 0.66f);
+        }
+    }
+
+    void Fire()
+    {
+        
     }
 
     void CamLook()
     {
         float y = Input.GetAxis("Mouse X") * lookSensitivity;
         rotX += Input.GetAxis("Mouse Y") * lookSensitivity;
+
+        rotX = Mathf.Clamp(rotX, minLookX, maxLookX);
+        playerCamera.transform.localRotation = Quaternion.Euler(-rotX, 0, 0);
+        transform.eulerAngles += Vector3.up * y;
     }
 }
