@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     public GameObject enemy;
     private GameObject coins;
+    public CameraFollow focalPoint;
     private PickUpSpawner pickUpSpawn;
     private EnemySpawner enemySpawn;
     public EnemyAI enemyAI;
@@ -72,6 +73,8 @@ public class GameManager : MonoBehaviour
     {
         startButton.onClick.AddListener(StartGame);
         gameActive = true;
+
+        focalPoint.transform.rotation = focalPoint.startY;
     }
 
     public void StartGame()

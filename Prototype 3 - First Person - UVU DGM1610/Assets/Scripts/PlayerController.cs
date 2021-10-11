@@ -23,8 +23,15 @@ public class PlayerController : MonoBehaviour
     //Declares player's camera & RigidBody
     private Camera playerCamera;
     private Rigidbody playerRb;
+    private Weapon weaponScript;
 
-    private Bullet bulletScrpt;
+    private void Awake()
+    {
+        //Disable cursor
+        Cursor.lockState = CursorLockMode.Locked;
+
+        weaponScript = GetComponent<Weapon>();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -40,14 +47,19 @@ public class PlayerController : MonoBehaviour
         Move();
         CamLook();
         Aim();
+        //Fire Button
+        if (Input.GetMouseButton(0))
+        {
+            if (weaponScript.CanShoot())
+                weaponScript.Shoot();
+        }
     }
 
     private void FixedUpdate()
     {
         if (Input.GetKeyDown(KeyCode.Space))
             Jump();
-        if (Input.GetMouseButtonDown(0))
-            bulletScrpt.Fire();
+        
     }
 
     void Move()
@@ -68,6 +80,7 @@ public class PlayerController : MonoBehaviour
             playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 
+    //Function creating an aim mechanic
     void Aim()
     {
         if(Input.GetMouseButtonDown(1))
@@ -78,11 +91,6 @@ public class PlayerController : MonoBehaviour
         {
             GameObject.Find("Gun").transform.localPosition = new Vector3(0.17f, -0.26704f, 0.66f);
         }
-    }
-
-    void Fire()
-    {
-        
     }
 
     void CamLook()

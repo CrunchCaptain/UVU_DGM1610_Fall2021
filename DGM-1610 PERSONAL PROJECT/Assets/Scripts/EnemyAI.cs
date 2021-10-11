@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-    public float speed = 5;
+    public float speed = 3.5f;
     public float scoreValue = 5f;
     private int damage = -1;
 
@@ -44,6 +44,6 @@ public class EnemyAI : MonoBehaviour
     {
         Vector3 followPlayer = (playerLocation.transform.position - transform.position).normalized;
 
-        enemyRb.AddForce(followPlayer * speed);
+        enemyRb.AddForce(followPlayer * speed, ForceMode.Acceleration);
     }
 }
