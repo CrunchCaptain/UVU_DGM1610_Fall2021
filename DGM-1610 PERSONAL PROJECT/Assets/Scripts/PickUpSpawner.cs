@@ -7,8 +7,12 @@ public class PickUpSpawner : MonoBehaviour
     private float zRange;
     private float xRange;
 
+    private int randomPowerUp;
+
     public GameObject coin;
     private GameManager gameManager;
+
+    public GameObject[] powerUps;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,7 +24,7 @@ public class PickUpSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        randomPowerUp = Random.Range(0, 4);
     }
 
     private Vector3 SpawnPosition()
@@ -37,5 +41,10 @@ public class PickUpSpawner : MonoBehaviour
         {
             Instantiate(coin, SpawnPosition(), coin.transform.rotation);
         }
+    }
+
+    public void SpawnPowerUps()
+    {
+        Instantiate(powerUps[randomPowerUp], SpawnPosition(), powerUps[randomPowerUp].transform.rotation);
     }
 }

@@ -9,6 +9,10 @@ TagManager:
   - Coin
   - Enemy Spawner
   - Pick Up Spawner
+  - Diamond
+  - Clock
+  - Jump Boost
+  - Double Points
   layers:
   - Default
   - TransparentFX

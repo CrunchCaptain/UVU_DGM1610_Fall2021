@@ -23,14 +23,14 @@ public class PlayerController : MonoBehaviour
     //Declares player's camera & RigidBody
     private Camera playerCamera;
     private Rigidbody playerRb;
-    private Weapon weaponScript;
+    public Weapon weaponScript;
+
+    private bool isAiming;
 
     private void Awake()
     {
         //Disable cursor
         Cursor.lockState = CursorLockMode.Locked;
-
-        weaponScript = GetComponent<Weapon>();
     }
 
     // Start is called before the first frame update
@@ -47,18 +47,20 @@ public class PlayerController : MonoBehaviour
         Move();
         CamLook();
         Aim();
+        
         //Fire Button
         if (Input.GetMouseButton(0))
         {
             if (weaponScript.CanShoot())
                 weaponScript.Shoot();
         }
-    }
 
-    private void FixedUpdate()
-    {
         if (Input.GetKeyDown(KeyCode.Space))
             Jump();
+    }
+
+    void FixedUpdate()
+    {
         
     }
 
@@ -69,7 +71,16 @@ public class PlayerController : MonoBehaviour
 
         //playerRb.velocity = new Vector3(x, playerRb.velocity.y, z);
         Vector3 dir = transform.right * x + transform.forward * z;
+
+        //Jump with direction
+        dir.y = playerRb.velocity.y;
+
         playerRb.velocity = dir;
+
+        if (isAiming == true)
+            movementSpeed = 4;
+        else
+            movementSpeed = 6.5f;
     }
 
     void Jump()
@@ -77,7 +88,9 @@ public class PlayerController : MonoBehaviour
         Ray ray = new Ray(transform.position, Vector3.down);
 
         if (Physics.Raycast(ray, 1.1f))
+        {
             playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
     }
 
     //Function creating an aim mechanic
@@ -86,10 +99,12 @@ public class PlayerController : MonoBehaviour
         if(Input.GetMouseButtonDown(1))
         {
             GameObject.Find("Gun").transform.localPosition = new Vector3(0, -0.2f, 0.66f);
+            isAiming = true;
         }
         if (Input.GetMouseButtonUp(1))
         {
             GameObject.Find("Gun").transform.localPosition = new Vector3(0.17f, -0.26704f, 0.66f);
+            isAiming = false;
         }
     }
 

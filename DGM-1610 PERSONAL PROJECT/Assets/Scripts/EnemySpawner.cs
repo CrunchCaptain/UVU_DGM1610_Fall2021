@@ -40,5 +40,6 @@ public class EnemySpawner : MonoBehaviour
             Instantiate(enemyPrefab, SpawnPosition(), enemyPrefab.transform.rotation);
             enemyAI.speed += .25f;
         }
+            
     }
 }

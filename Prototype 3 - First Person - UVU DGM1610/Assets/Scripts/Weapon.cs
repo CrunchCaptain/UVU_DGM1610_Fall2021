@@ -47,6 +47,6 @@ public class Weapon : MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab, muzzle.position, muzzle.rotation);
 
         //adds velocity to bullets
-        bullet.GetComponent<Rigidbody>().velocity = muzzle.forward * bulletSpeed * Time.deltaTime;
+        bullet.GetComponent<Rigidbody>().velocity = muzzle.forward * bulletSpeed;
     }
 }

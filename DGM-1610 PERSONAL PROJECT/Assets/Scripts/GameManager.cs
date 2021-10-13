@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     public GameObject enemy;
     private GameObject coins;
+
     public CameraFollow focalPoint;
     private PickUpSpawner pickUpSpawn;
     private EnemySpawner enemySpawn;
@@ -46,6 +47,7 @@ public class GameManager : MonoBehaviour
         pickUpSpawn = GameObject.FindWithTag("Pick Up Spawner").GetComponent<PickUpSpawner>();
         enemySpawn = GameObject.FindWithTag("Enemy Spawner").GetComponent<EnemySpawner>();
         coins = GameObject.FindWithTag("Coin");
+        
     }
 
     // Update is called once per frame
@@ -94,7 +96,7 @@ public class GameManager : MonoBehaviour
 
                 pickUpSpawn.SpawnPickUps(round);
                 enemySpawn.SpawnEnemyWave(round);
-
+                pickUpSpawn.SpawnPowerUps();
             }
         }
 
