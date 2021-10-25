@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c575bddc5d0e7a42b238c857852fd11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuCoin: {fileID: 0}
+  menuCoin: {fileID: 8821973353433162530}
   yRotationSpeed: 30
   xRotationSpeed: 45
 --- !u!1001 &4808564183381993767
@@ -22,9 +22,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2980490835188758515, guid: 6c1a4e738db5e424191c4ac12c4df0cc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4095603452304820741, guid: 6c1a4e738db5e424191c4ac12c4df0cc, type: 3}
       propertyPath: m_Name
-      value: Menu Coin
+      value: Menu Coin Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 4095603452304820741, guid: 6c1a4e738db5e424191c4ac12c4df0cc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4095603452304820766, guid: 6c1a4e738db5e424191c4ac12c4df0cc, type: 3}
       propertyPath: m_RootOrder
@@ -84,6 +92,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1717442823535642607, guid: 6c1a4e738db5e424191c4ac12c4df0cc, type: 3}
+    - {fileID: 2106331332413627162, guid: 6c1a4e738db5e424191c4ac12c4df0cc, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 6c1a4e738db5e424191c4ac12c4df0cc, type: 3}
 --- !u!1 &8821973353433162530 stripped
 GameObject:

@@ -4,12 +4,19 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Stats")]
     //Player movement speed in units per second
     public float movementSpeed;
 
     //Force applied upwards
     public float jumpForce;
 
+    //Health Stats
+    public int curHp;
+    public int maxHp;
+
+
+    [Header("Mouse Look")]
     //Mouse look sensitivity
     public float lookSensitivity;
 
@@ -41,29 +48,23 @@ public class PlayerController : MonoBehaviour
         playerRb = GameObject.Find("Player").GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
-    void Update()
+    // Applies damage to the player
+    public void TakeDamage(int damage)
     {
-        Move();
-        CamLook();
-        Aim();
-        
-        //Fire Button
-        if (Input.GetMouseButton(0))
+        curHp -= damage;
+
+        if (curHp <= 0)
         {
-            if (weaponScript.CanShoot())
-                weaponScript.Shoot();
+            Die();
         }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-            Jump();
     }
 
-    void FixedUpdate()
+    // Ends game if players curHp <= 0
+    void Die()
     {
         
     }
-
+    
     void Move()
     {
         float x = Input.GetAxis("Horizontal") * movementSpeed;
@@ -117,4 +118,23 @@ public class PlayerController : MonoBehaviour
         playerCamera.transform.localRotation = Quaternion.Euler(-rotX, 0, 0);
         transform.eulerAngles += Vector3.up * y;
     }
+
+    // Update is called once per frame
+    void Update()
+    {
+        Move();
+        CamLook();
+        Aim();
+
+        //Fire Button
+        if (Input.GetMouseButton(0))
+        {
+            if (weaponScript.CanShoot())
+                weaponScript.Shoot();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+            Jump();
+    }
+
 }

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    public GameObject bulletPrefab;
+    //public GameObject bulletPrefab;
+    public ObjectPool bulletPool;
 
     public Transform muzzle;
 
@@ -44,7 +45,11 @@ public class Weapon : MonoBehaviour
         currentAmmo--;
 
         //Creating an instaqnce of the bullet prefab at muzzles position and rotation
-        GameObject bullet = Instantiate(bulletPrefab, muzzle.position, muzzle.rotation);
+        //GameObject bullet = Instantiate(bulletPrefab, muzzle.position, muzzle.rotation);
+        GameObject bullet = bulletPool.GetObject();
+
+        bullet.transform.position = muzzle.position;
+        bullet.transform.rotation = muzzle.rotation;
 
         //adds velocity to bullets
         bullet.GetComponent<Rigidbody>().velocity = muzzle.forward * bulletSpeed;

@@ -11,7 +11,6 @@ public class CameraFollow : MonoBehaviour
     public Rigidbody player;
     public Quaternion startY;
 
-
     private void Start()
     {
         startY = transform.rotation;

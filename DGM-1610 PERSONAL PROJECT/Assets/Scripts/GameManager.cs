@@ -7,11 +7,12 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public float lives = 3f;
+    public GameObject[] hearts;
+    public int lives;
     public int score;
     
     public int coinsLeft;
-    public int round;
+    public int round = 0;
     public int coinCount;
 
     public bool gameOver = false;
@@ -22,8 +23,8 @@ public class GameManager : MonoBehaviour
 
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI roundText;
-    public TextMeshProUGUI livesText;
     public TextMeshProUGUI coinsText;
+    public TextMeshProUGUI rocketsText;
     public GameObject hud;
 
     public TextMeshProUGUI gameOverText;
@@ -38,6 +39,7 @@ public class GameManager : MonoBehaviour
     private PickUpSpawner pickUpSpawn;
     private EnemySpawner enemySpawn;
     public EnemyAI enemyAI;
+    public PlayerController playerScript;
     public ParticleSystem deathPart;
 
     // Start is called before the first frame update
@@ -47,7 +49,7 @@ public class GameManager : MonoBehaviour
         pickUpSpawn = GameObject.FindWithTag("Pick Up Spawner").GetComponent<PickUpSpawner>();
         enemySpawn = GameObject.FindWithTag("Enemy Spawner").GetComponent<EnemySpawner>();
         coins = GameObject.FindWithTag("Coin");
-        
+        lives = hearts.Length;
     }
 
     // Update is called once per frame
@@ -59,22 +61,14 @@ public class GameManager : MonoBehaviour
         
         
         coinUpdater(coinCount);
-        //ends game if player runs out of lives
-        if (lives < 1)
-        {
-            gameActive = false;
-            enemyAI.speed = 5;
-            Destroy(player.gameObject);
-            Instantiate(deathPart, player.transform.position, deathPart.transform.rotation);
-            GameOverDisplay();
-           
-        }
     }
 
     public void StartButton()
     {
         startButton.onClick.AddListener(StartGame);
         gameActive = true;
+        enemyAI.speedMin = 10f;
+        enemyAI.speedMax = 30f;
 
         focalPoint.transform.rotation = focalPoint.startY;
     }
@@ -88,7 +82,8 @@ public class GameManager : MonoBehaviour
             player.GetComponent<Rigidbody>().useGravity = true;
 
             ScoreUpdater(0);
-            LivesUpdater(0);
+            LivesUpdater();
+            rocketUpdater(0);
             if (coinCount == 0)
             {
                 RoundUpdater(1);
@@ -96,6 +91,8 @@ public class GameManager : MonoBehaviour
 
                 pickUpSpawn.SpawnPickUps(round);
                 enemySpawn.SpawnEnemyWave(round);
+                enemyAI.speedMin += 1;
+                enemyAI.speedMax += 1;
                 pickUpSpawn.SpawnPowerUps();
             }
         }
@@ -117,14 +114,31 @@ public class GameManager : MonoBehaviour
     public void ScoreUpdater(int scoreToAdd)
     {
         score += scoreToAdd;
-        scoreText.text = "SCORE: " + score;
+        scoreText.text = ": " + score;
         finalScoreText.text = "SCORE - " + score;
     }
 
-    public void LivesUpdater(int livesLeft)
+    public void LivesUpdater()
     {
-        lives += livesLeft;
-        livesText.text = "LIVES: " + lives;
+        if (lives < 1) //ends game if player runs out of lives
+        {
+            Destroy(hearts[2].gameObject);
+            gameActive = false;
+            gameOver = true;
+            Destroy(player.gameObject);
+            Instantiate(deathPart, player.transform.position, deathPart.transform.rotation);
+            GameOverDisplay();
+        }
+        if (lives < 2)
+        {
+            Destroy(hearts[1].gameObject);
+        }
+        if (lives < 3)
+        {
+            Destroy(hearts[0].gameObject);
+        }
+        
+        
     }
 
     public void RoundUpdater(int currentRound)
@@ -137,5 +151,16 @@ public class GameManager : MonoBehaviour
     {
         coinCount = coinInRound;
         coinsText.text = "COINS LEFT: " + coinCount;
+    }
+
+    public void rocketUpdater(int rocketsLeft)
+    {
+        rocketsLeft = playerScript.rocketAmount;
+        rocketsText.text = "Rockets: " + playerScript.rocketAmount;
+
+        if (playerScript.rocketAmount == 6)
+        {
+            rocketsText.text = "Rockets: Full";
+        }
     }
 }

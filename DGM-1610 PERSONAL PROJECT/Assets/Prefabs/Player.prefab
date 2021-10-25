@@ -73,7 +73,7 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
@@ -91,10 +91,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  jumpForce: 5
   rotationSpeed: 50
+  jumpRate: 0
   gameManager: {fileID: 0}
+  rocketPrefab: {fileID: 0}
+  rocketBarrel: {fileID: 0}
   burnOut: {fileID: 0}
+  hasDiamond: 0
+  hasDp: 0
+  hasRocket: 0
+  hasStop: 0
+  rocketAmount: 9
+  diamondIndicator: {fileID: 0}
+  stopWatchIndicator: {fileID: 0}
+  doublePointIndicator: {fileID: 0}
 --- !u!1 &782061566706419790
 GameObject:
   m_ObjectHideFlags: 0

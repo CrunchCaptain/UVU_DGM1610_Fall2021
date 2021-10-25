@@ -11,8 +11,10 @@ TagManager:
   - Pick Up Spawner
   - Diamond
   - Clock
-  - Jump Boost
   - Double Points
+  - Rocket
+  - Wall
+  - Rocket Pickup
   layers:
   - Default
   - TransparentFX

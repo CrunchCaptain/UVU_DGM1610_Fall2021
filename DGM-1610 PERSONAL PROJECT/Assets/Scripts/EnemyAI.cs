@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class EnemyAI : MonoBehaviour
 {
-    public float speed = 6.5f;
-    public float scoreValue = 5f;
-    private int damage = -1;
+    public float speed;
+    private float spawnSpeed;
+    public float speedMin = 5;
+    public float speedMax = 15;
+    private int scoreValue = 5;
+    private float randomInput;
 
     private Rigidbody enemyRb;
     private GameObject playerLocation;
+    public GameObject stopWatchParticle;
     private PlayerController playerScript;
     private GameManager gameManager;
 
@@ -18,24 +22,54 @@ public class EnemyAI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        speed = spawnSpeed;
         enemyRb = gameObject.GetComponent<Rigidbody>();
         playerLocation = GameObject.FindWithTag("Player");
         playerScript = playerLocation.GetComponent<PlayerController>();
         gameManager = GameObject.FindWithTag("GameController").GetComponent<GameManager>();
-
-        speed = 6.5f;
     }
 
     // Update is called once per frame
     void Update()
     {
+        spawnSpeed = Random.Range(speedMin, speedMax);
+        float speedRandom = Random.Range(speedMin, speedMax);
+        randomInput = Random.Range(-150f, 150f);
+        Vector3 randomInputVec = new Vector3(randomInput, 0, randomInput);
+
         if (playerScript.hasDiamond == true)
         {
             followPlayer = (playerLocation.transform.position + transform.position).normalized;
         }
         else
         {
-            followPlayer = (playerLocation.transform.position - transform.position).normalized;
+            followPlayer = (playerLocation.transform.position - transform.position - randomInputVec).normalized;
+        }
+
+        if (playerScript.hasStop == true)
+        {
+            speed = 1;
+            stopWatchParticle.SetActive(true);
+        }
+        else 
+        {
+            speed = speedRandom;
+            stopWatchParticle.SetActive(false);
+        }
+        
+        if (playerScript.hasDp == true)
+        {
+            scoreValue = scoreValue * 2;
+        }
+        else
+        {
+            scoreValue = 5;
+        }
+
+        if (transform.position.y > 8)
+        {
+            Destroy(gameObject);
+            gameManager.score += scoreValue;
         }
     }
 
@@ -43,7 +77,16 @@ public class EnemyAI : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            gameManager.LivesUpdater(damage);
+            gameManager.lives--;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Rocket"))
+        {
+            Destroy(gameObject);
+            gameManager.score += scoreValue;
         }
     }
 
@@ -54,8 +97,6 @@ public class EnemyAI : MonoBehaviour
 
     void Move()
     {
-        
-
         enemyRb.AddForce(followPlayer * speed, ForceMode.Acceleration);
     }
 }
