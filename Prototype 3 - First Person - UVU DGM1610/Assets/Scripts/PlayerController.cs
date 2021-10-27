@@ -94,6 +94,16 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void GiveHealth(int amountToGive)
+    {
+        curHp = Mathf.Clamp(curHp + amountToGive, 0, maxHp);
+    }
+
+    public void GiveAmmo(int amountToGive)
+    {
+        weaponScript.currentAmmo = Mathf.Clamp(weaponScript.currentAmmo + amountToGive, 0, weaponScript.maxAmmo);
+    }
+
     //Function creating an aim mechanic
     void Aim()
     {
