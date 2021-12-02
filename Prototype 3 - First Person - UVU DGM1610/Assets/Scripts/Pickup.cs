@@ -29,6 +29,7 @@ public class Pickup : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        //Recognize which pick up the player collides with and gives that value accordingly 
         if (other.CompareTag("Player"))
         {
             PlayerController player = other.GetComponent<PlayerController>();
@@ -52,6 +53,7 @@ public class Pickup : MonoBehaviour
 
     void Update()
     {
+        //Animates pickups
         transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
 
         Vector3 offset = (isBobbing == true ? new Vector3(0, bobHeight / 2, 0) : new Vector3(0, -bobHeight / 2, 0));

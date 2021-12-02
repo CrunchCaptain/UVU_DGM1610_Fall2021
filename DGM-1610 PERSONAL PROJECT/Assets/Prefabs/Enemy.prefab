@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b7191d711da1f54cbabe44c6bd59b05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
+  speed: 10
   speedMin: 10
   speedMax: 30
   stopWatchParticle: {fileID: 552576162305413696}

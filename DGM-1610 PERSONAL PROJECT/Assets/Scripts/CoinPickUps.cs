@@ -29,17 +29,17 @@ public class CoinPickUps : MonoBehaviour
 
         if (playerScript.hasDp == true)
         {
-            scoreValue = 10;
+            scoreValue = 10; //coins are double points while player has double point pick up
         }
         else
         {
-            scoreValue = 5;
+            scoreValue = 5; //Resets to original value
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player")) //Detects when player collects a coin
         {
             Destroy(gameObject);
             AudioSource.PlayClipAtPoint(coinSound, transform.position);

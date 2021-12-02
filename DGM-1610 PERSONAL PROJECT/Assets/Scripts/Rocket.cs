@@ -4,33 +4,25 @@ using UnityEngine;
 
 public class Rocket : MonoBehaviour
 {
-    private Rigidbody rocketRb;
-    public Transform rocketMuzzle;
-    private Vector3 direction;
-    private float velocity = 60;
-
-    private float maxDist = 30;
+    public float lifetime;
+    private float shootTime;
 
     // Start is called before the first frame update
     void Start()
     {
-        rocketRb = gameObject.GetComponent<Rigidbody>();
-        rocketMuzzle = GameObject.Find("Rocket Barrel").transform;
-
+        shootTime = Time.time;
     }
 
     // Update is called once per frame
     void Update()
     {
-        rocketRb.velocity = rocketMuzzle.forward * velocity;
-
-        if (transform.position.x > maxDist)
-            Destroy(gameObject);
-        if (transform.position.x < -maxDist)
-            Destroy(gameObject);
-        if (transform.position.z > maxDist)
-            Destroy(gameObject);
-        if (transform.position.z < -maxDist)
-            Destroy(gameObject);
+        if (Time.time - shootTime >= lifetime)
+            gameObject.SetActive(false);
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Enemy") || other.CompareTag("Wall"))
+            gameObject.SetActive(false);
+    } 
 }

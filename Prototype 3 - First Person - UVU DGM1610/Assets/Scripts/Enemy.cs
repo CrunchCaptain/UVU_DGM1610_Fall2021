@@ -52,6 +52,7 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        //applies damage upon being shot until health reachs 0 or below
         curHp -= damage;
 
         if (curHp <= 0)
@@ -62,6 +63,8 @@ public class Enemy : MonoBehaviour
 
     void Die()
     {
+        //Destroys gameobject and gives player score
+        GameManager.instance.AddScore(scoreToGive);
         Destroy(gameObject);
     }
 

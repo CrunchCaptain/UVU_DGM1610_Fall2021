@@ -9,6 +9,7 @@ public class PowerUpRot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Rotates power ups
         transform.Rotate(Vector3.up * yRotationSpeed * Time.deltaTime);
     }
 }

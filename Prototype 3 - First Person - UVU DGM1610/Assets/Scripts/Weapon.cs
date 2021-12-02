@@ -22,14 +22,17 @@ public class Weapon : MonoBehaviour
 
     private void Awake()
     {
+        //Determines if the current gameObject with the script applied is the player or not
         if (GetComponent<PlayerController>())
             isPlayer = true;
     }
 
     public bool CanShoot()
     {
+        //Sets fire Rate
         if (Time.time - lastShootTime >= fireRate)
         {
+            //Allows shooting if player has ammo or infinit ammo
             if (currentAmmo > 0 || infinitAmmo == true)
                 return true;
         }
@@ -53,5 +56,11 @@ public class Weapon : MonoBehaviour
 
         //adds velocity to bullets
         bullet.GetComponent<Rigidbody>().velocity = muzzle.forward * bulletSpeed;
+
+        if (isPlayer)
+        {
+            //Updates ammo amount on UI
+            GameUI.instance.UpdateAmmoAmount(currentAmmo, maxAmmo);
+        }
     }
 }

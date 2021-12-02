@@ -46,27 +46,36 @@ public class PlayerController : MonoBehaviour
         //Calls player's camera & RigidBody
         playerCamera = Camera.main;
         playerRb = GameObject.Find("Player").GetComponent<Rigidbody>();
+
+        GameUI.instance.UpdateHealthBar(curHp, maxHp);
+        GameUI.instance.UpdateAmmoAmount(weaponScript.currentAmmo, weaponScript.maxAmmo);
+        GameUI.instance.UpdateScoreText(0);
     }
 
     // Applies damage to the player
     public void TakeDamage(int damage)
     {
+        //applies damage upon being shot until health reachs 0 or below
         curHp -= damage;
 
         if (curHp <= 0)
         {
             Die();
         }
+
+        //Updates player's UI health bar
+        GameUI.instance.UpdateHealthBar(curHp, maxHp);
     }
 
     // Ends game if players curHp <= 0
     void Die()
     {
-        
+            GameManager.instance.LoseGame();
     }
     
     void Move()
     {
+        //Player movement input
         float x = Input.GetAxis("Horizontal") * movementSpeed;
         float z = Input.GetAxis("Vertical") * movementSpeed;
 
@@ -78,6 +87,7 @@ public class PlayerController : MonoBehaviour
 
         playerRb.velocity = dir;
 
+        //Slows player down when aiming
         if (isAiming == true)
             movementSpeed = 4;
         else
@@ -86,6 +96,7 @@ public class PlayerController : MonoBehaviour
 
     void Jump()
     {
+        //Allows jumping through raycasting
         Ray ray = new Ray(transform.position, Vector3.down);
 
         if (Physics.Raycast(ray, 1.1f))
@@ -96,22 +107,28 @@ public class PlayerController : MonoBehaviour
 
     public void GiveHealth(int amountToGive)
     {
+        //Gives health from pickup collision
         curHp = Mathf.Clamp(curHp + amountToGive, 0, maxHp);
+        GameUI.instance.UpdateHealthBar(curHp, maxHp);
     }
 
     public void GiveAmmo(int amountToGive)
     {
+        //Gives ammo from pickup collision
         weaponScript.currentAmmo = Mathf.Clamp(weaponScript.currentAmmo + amountToGive, 0, weaponScript.maxAmmo);
+        GameUI.instance.UpdateAmmoAmount(weaponScript.currentAmmo, weaponScript.maxAmmo);
     }
 
     //Function creating an aim mechanic
     void Aim()
     {
+        //While down, player aims down sights
         if(Input.GetMouseButtonDown(1))
         {
             GameObject.Find("Gun").transform.localPosition = new Vector3(0, -0.2f, 0.66f);
             isAiming = true;
         }
+        //When released, weapon returns to hip fire
         if (Input.GetMouseButtonUp(1))
         {
             GameObject.Find("Gun").transform.localPosition = new Vector3(0.17f, -0.26704f, 0.66f);
@@ -121,9 +138,11 @@ public class PlayerController : MonoBehaviour
 
     void CamLook()
     {
+        //Mouse controls player look direction/speed
         float y = Input.GetAxis("Mouse X") * lookSensitivity;
         rotX += Input.GetAxis("Mouse Y") * lookSensitivity;
 
+        //Locks camera rotation from full rotation
         rotX = Mathf.Clamp(rotX, minLookX, maxLookX);
         playerCamera.transform.localRotation = Quaternion.Euler(-rotX, 0, 0);
         transform.eulerAngles += Vector3.up * y;
@@ -142,9 +161,14 @@ public class PlayerController : MonoBehaviour
             if (weaponScript.CanShoot())
                 weaponScript.Shoot();
         }
-
+        
+        //jump button
         if (Input.GetKeyDown(KeyCode.Space))
             Jump();
+
+        //Don't do anything if the game is paused
+        if (GameManager.instance.gamePaused == true)
+            return;
     }
 
 }

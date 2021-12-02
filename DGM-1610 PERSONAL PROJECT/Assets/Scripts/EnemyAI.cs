@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+using System.Linq;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -32,41 +34,42 @@ public class EnemyAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Randomizes enemy movement/speed
         spawnSpeed = Random.Range(speedMin, speedMax);
         float speedRandom = Random.Range(speedMin, speedMax);
         randomInput = Random.Range(-150f, 150f);
         Vector3 randomInputVec = new Vector3(randomInput, 0, randomInput);
 
-        if (playerScript.hasDiamond == true)
+        if (playerScript.hasDiamond == true) //pushes enemies away if player has diamond bomb
         {
             followPlayer = (playerLocation.transform.position + transform.position).normalized;
         }
-        else
+        else //default enemy movment
         {
             followPlayer = (playerLocation.transform.position - transform.position - randomInputVec).normalized;
         }
 
-        if (playerScript.hasStop == true)
+        if (playerScript.hasStop == true) //Slows enemies down if player has stop watch
         {
             speed = 1;
             stopWatchParticle.SetActive(true);
         }
-        else 
+        else //default speed
         {
             speed = speedRandom;
             stopWatchParticle.SetActive(false);
         }
         
-        if (playerScript.hasDp == true)
+        if (playerScript.hasDp == true) //doubles enemies score value if player has double points
         {
-            scoreValue = scoreValue * 2;
+            scoreValue = 10;
         }
-        else
+        else //default score value
         {
             scoreValue = 5;
         }
 
-        if (transform.position.y > 8)
+        if (transform.position.y > 8) //Destroy enemies if diamond bomb pushs them out of bounds
         {
             Destroy(gameObject);
             gameManager.score += scoreValue;
@@ -75,6 +78,7 @@ public class EnemyAI : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        //hurts player if enemy touches them
         if (collision.gameObject.tag == "Player")
         {
             gameManager.lives--;
@@ -83,6 +87,7 @@ public class EnemyAI : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        //Destroyes enemies and adds to score if hit by rocket
         if (other.gameObject.CompareTag("Rocket"))
         {
             Destroy(gameObject);
@@ -97,6 +102,7 @@ public class EnemyAI : MonoBehaviour
 
     void Move()
     {
+        //adds force to enemies
         enemyRb.AddForce(followPlayer * speed, ForceMode.Acceleration);
     }
 }

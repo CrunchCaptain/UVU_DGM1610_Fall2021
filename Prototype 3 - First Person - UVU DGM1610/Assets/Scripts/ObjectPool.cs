@@ -20,6 +20,7 @@ public class ObjectPool : MonoBehaviour
 
     GameObject CreateNewObject()
     {
+        //Creates objects for pool
         GameObject obj = Instantiate(objPrefab);
         obj.SetActive(false);
         pooledObjects.Add(obj);

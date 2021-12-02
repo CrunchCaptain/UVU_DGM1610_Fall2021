@@ -4,36 +4,38 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Rates")]
     public float speed = 10f;
     public float rotationSpeed = 100f;
-    private bool canMove;
+    public float jumpRate;
 
     private float jumpForce = 6f;
     private float lastJumpTime;
-    public float jumpRate;
-    private float jumpCoolDown;
 
     private Rigidbody playerRb;
-    public GameManager gameManager;
-    private GameObject focalPoint;
-    public GameObject rocketPrefab;
-    public Transform rocketBarrel;
-    public ParticleSystem burnOut;
 
+    [Header("Scripts")]
+    public RocketLauncher rocketLauncher;
+    public GameManager gameManager;
+
+    [Header("PowerUps")]
     public bool hasDiamond;
     public bool hasDp;
-    public bool hasRocket;
+    public bool hasRockets;
     public bool hasStop;
 
     private float diamondTime = 5f;
     private float doublePointsTime = 20;
     private float stopWatchTime = 10f;
-    public int rocketAmount;
-
+    
+    [Header("PowerUp GameObjects")]
     public GameObject diamondIndicator;
     public GameObject stopWatchIndicator;
     public GameObject doublePointIndicator;
+    public GameObject rocketPrefab;
+    private GameObject focalPoint;
 
+    
     void Start()
     {
         playerRb = gameObject.GetComponent<Rigidbody>();
@@ -45,6 +47,7 @@ public class PlayerController : MonoBehaviour
     {
         Rocket();
 
+        //if the game is active player can jump
         if (gameManager.gameActive == true)
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -66,12 +69,14 @@ public class PlayerController : MonoBehaviour
 
     public void Movement()
     {
-            float vInput = Input.GetAxis("Vertical") * speed;
-            playerRb.AddForce(focalPoint.transform.forward * vInput, ForceMode.Acceleration);
+       //adds force/input to player   
+       float vInput = Input.GetAxis("Vertical") * speed;
+       playerRb.AddForce(focalPoint.transform.forward * vInput, ForceMode.Acceleration);
     }
 
     private bool CanJump()
     {
+        //Jump cooldown
         if (Time.time - lastJumpTime >= jumpRate)
         {
             return true;
@@ -82,21 +87,22 @@ public class PlayerController : MonoBehaviour
 
     void Rocket()
     {
-        if (rocketAmount >= 1)
+        //active rockets if player has any
+        if (rocketLauncher.rocketAmount >= 1)
+            hasRockets = true;
+        else
+            hasRockets = false;
+
+        if (hasRockets == true)
         {
             if (Input.GetKeyDown(KeyCode.E))
-            {
-                Instantiate(rocketPrefab, rocketBarrel.position, rocketBarrel.rotation);
-                rocketAmount--;
-            }
+                rocketLauncher.OnRocketSpawn();
         }
-
-        if (rocketAmount > 6)
-            rocketAmount = 6;
     }
 
     void Jump()
     {
+        //jump mechanic
         lastJumpTime = Time.time;
 
         Ray jumpRay = new Ray(transform.position, Vector3.down);
@@ -107,7 +113,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-     
+    
 
     private void OnTriggerEnter(Collider powerUp)
     {
@@ -120,7 +126,7 @@ public class PlayerController : MonoBehaviour
             Destroy(powerUp.gameObject);
             StartCoroutine(diamondBombTime());
         }
-
+        //Diamond Bomb timer
         IEnumerator diamondBombTime()
         {
             yield return new WaitForSeconds(diamondTime);
@@ -128,7 +134,7 @@ public class PlayerController : MonoBehaviour
             diamondIndicator.SetActive(false);
         }
 
-        //Double points trigger
+        //Double Points trigger
         if (powerUp.tag == "Double Points")
         {
             hasDp = true;
@@ -157,7 +163,7 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(stopWatchTimer());
         }
 
-        //Stop watch timer
+        //Stop Watch timer
         IEnumerator stopWatchTimer()
         {
             yield return new WaitForSeconds(stopWatchTime);
@@ -169,8 +175,11 @@ public class PlayerController : MonoBehaviour
         //Gives player 3 more rockets
         if (powerUp.tag == "Rocket Pickup")
         {
-            rocketAmount += 3;
-            Destroy(powerUp.gameObject);
+            if (rocketLauncher.rocketAmount < 6)
+            {
+                rocketLauncher.rocketAmount += 3;
+                Destroy(powerUp.gameObject);
+            } 
         }
     }
 }

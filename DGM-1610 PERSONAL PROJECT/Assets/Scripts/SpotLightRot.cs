@@ -13,6 +13,7 @@ public class SpotLightRot : MonoBehaviour
 
     private void Update()
     {
+        //Rotates spotlights on guard towers
         transform.localEulerAngles = new Vector3(30, Mathf.PingPong(Time.time * speed, 75), 0);
     }
 }
