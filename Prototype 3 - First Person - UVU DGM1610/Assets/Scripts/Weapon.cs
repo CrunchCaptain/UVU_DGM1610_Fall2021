@@ -20,11 +20,17 @@ public class Weapon : MonoBehaviour
     private float lastShootTime;
     private bool isPlayer;
 
+    //Set audio source and sound to play
+    public AudioClip shootSFX;
+    private AudioSource audioSource;
+
     private void Awake()
     {
         //Determines if the current gameObject with the script applied is the player or not
         if (GetComponent<PlayerController>())
             isPlayer = true;
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     public bool CanShoot()
@@ -62,5 +68,8 @@ public class Weapon : MonoBehaviour
             //Updates ammo amount on UI
             GameUI.instance.UpdateAmmoAmount(currentAmmo, maxAmmo);
         }
+
+        //play shoot sound effect
+        audioSource.PlayOneShot(shootSFX);
     }
 }

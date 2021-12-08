@@ -18,9 +18,10 @@ public class CameraFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-            float hInput = Input.GetAxis("Horizontal");
-            transform.Rotate(Vector3.up, hInput * rotationSpeed * Time.deltaTime);
-            player.transform.Rotate(Vector3.up, hInput * rotationSpeed * Time.deltaTime);
-            transform.position = player.transform.position;
+        //moves camera & player to follow the diameter of the focal point
+        float hInput = Input.GetAxis("Horizontal");
+        transform.Rotate(Vector3.up, hInput * rotationSpeed * Time.deltaTime);
+        player.transform.Rotate(Vector3.up, hInput * rotationSpeed * Time.deltaTime);
+        transform.position = player.transform.position;
     }
 }

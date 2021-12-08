@@ -17,6 +17,7 @@ public class CoinMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Animates the menu coin
         transform.Rotate(Vector3.right * yRotationSpeed * Time.deltaTime);
         transform.Rotate(Vector3.forward * xRotationSpeed * Time.deltaTime);
     }

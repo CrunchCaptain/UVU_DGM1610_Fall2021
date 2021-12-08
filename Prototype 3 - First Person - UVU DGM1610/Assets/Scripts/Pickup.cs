@@ -16,6 +16,9 @@ public class Pickup : MonoBehaviour
 
     private Vector3 startPos;
 
+    //Get Audio for pickup
+    public AudioClip pickupSFX;
+
     void Start()
     {
         startPos = transform.position;
@@ -46,7 +49,8 @@ public class Pickup : MonoBehaviour
                     print("Type not accepted");
                         break;
             }
-
+            //Reference audio source to play sound effect
+            other.GetComponent<AudioSource>().PlayOneShot(pickupSFX);
             Destroy(gameObject);
         }
     }
