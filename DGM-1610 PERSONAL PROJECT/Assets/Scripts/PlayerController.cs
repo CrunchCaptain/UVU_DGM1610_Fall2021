@@ -175,6 +175,7 @@ public class PlayerController : MonoBehaviour
         //Gives player 3 more rockets
         if (powerUp.tag == "Rocket Pickup")
         {
+            //Gives player 3 rockets if they don't have the max amount of rockets (6)
             if (rocketLauncher.rocketAmount < 6)
             {
                 rocketLauncher.rocketAmount += 3;

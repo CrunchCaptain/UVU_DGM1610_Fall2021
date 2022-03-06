@@ -59,8 +59,10 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Locks cursor to game window
         Cursor.lockState = CursorLockMode.Locked;
 
+        //Declaring variables
         player = GameObject.FindWithTag("Player");
         pickUpSpawn = GameObject.FindWithTag("Pick Up Spawner").GetComponent<PickUpSpawner>();
         enemySpawn = GameObject.FindWithTag("Enemy Spawner").GetComponent<EnemySpawner>();
@@ -75,17 +77,14 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //StartGame();
-
         coinCount = FindObjectsOfType<CoinPickUps>().Length;
-        
         
         coinUpdater(coinCount);
         ScoreUpdater(0);
         LivesUpdater();
         rocketUpdater(0);
 
-        //when coin count hits 0 game goes up a round
+        //when coin count hits 0 game goes up a round spawning coins and enemys by round amount
         if (coinCount == 0)
         {
             RoundUpdater(1);
@@ -107,7 +106,7 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
-    public void MainMenu()
+    public void MainMenu() //Opens main menu
     {
         SceneManager.LoadScene("Coin Thief Menu");
     }
@@ -120,7 +119,7 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = gameOver == true ? CursorLockMode.Confined : CursorLockMode.Locked;
     }
 
-    public void PauseScreenDisplay()
+    public void PauseScreenDisplay() //Pause screen UI display
     {
         isPaused = !isPaused;
 

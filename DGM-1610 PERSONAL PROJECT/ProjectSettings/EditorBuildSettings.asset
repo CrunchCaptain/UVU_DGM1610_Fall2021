@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Splash Screen.unity
+    guid: 2c4c45e9fc34e2c45894992cc049c7b4
+  - enabled: 1
     path: Assets/Scenes/Coin Thief Menu.unity
     guid: e17b5a4a0103a86438c6039e8392cb6f
   - enabled: 1

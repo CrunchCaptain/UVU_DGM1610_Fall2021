@@ -34,35 +34,35 @@ public class MenuManager : MonoBehaviour
         
     }
 
-    public void StartButton()
+    public void StartButton() //Loads game scene
     {
         SceneManager.LoadScene("Coin Thief");
     }
 
-    public void ExitButton()
+    public void ExitButton() //Ends application
     {
         Application.Quit();
     }
 
-    public void HowToButton()
+    public void HowToButton() //Opens the first "how to play" page
     {
         mainMenu.SetActive(false);
         howToMenu.SetActive(true);
     }
 
-    public void ReturnMenu()
+    public void ReturnMenu() //Returns to main menu from how to pages
     {
         howToMenu.SetActive(false);
         mainMenu.SetActive(true);
     }
 
-    public void NextPage()
+    public void NextPage() //Moves to page 2 of how to pages
     {
         pageOne.SetActive(false);
         pageTwo.SetActive(true);
     }
 
-    public void PreviousPage()
+    public void PreviousPage() //returns to 1st how to page
     {
         pageTwo.SetActive(false);
         pageOne.SetActive(true);

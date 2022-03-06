@@ -12,11 +12,12 @@ public class RocketLauncher : MonoBehaviour, IPooledRockets
 
     private void Update()
     {
+        //Limits the player's rocket count to 6
         if (rocketAmount > 6)
             rocketAmount = 6;
     }
 
-    public void OnRocketSpawn()
+    public void OnRocketSpawn() //Spawns rockets
     {
             rocketAmount--;
 
